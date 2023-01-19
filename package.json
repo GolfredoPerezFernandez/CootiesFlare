@@ -34,6 +34,7 @@
     "@web3uikit/icons": "^0.2.40",
     "@web3uikit/web3": "^0.2.2",
     "axios": "^0.27.2",
+    "ethereum-input-data-decoder": "^0.4.2",
     "ethers": "^5.6.9",
     "framer-motion": "^6",
     "magic-sdk": "^9.0.0",
