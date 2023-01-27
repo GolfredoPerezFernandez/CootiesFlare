@@ -4389,7 +4389,7 @@ if(res.status === 200) {
                <VStack width={props.width<1000?"280px":"100%"}>   
 				
 <Heading   color={"#1CFFA0T"}  width={props.width<1000?"280px":"100%"} marginBottom={'0px'}  marginTop={props.width<1000?"80px":"0px"} fontSize={props.width<1000?"2xl":"4xl"}  alignSelf={'center'} textAlign={'center'}>
-          MORE THAT JUST ART COMMUNITY-DRIVEN SONGBIRD ECOSYSTEM ACCELERATOR.
+          MORE THAN JUST ART! COMMUNITY-DRIVEN FLARE ECOSYSTEM ACCELERATOR.
 
           </Heading>
         
@@ -5136,7 +5136,7 @@ if(res.status === 200) {
                <VStack width={props.width<1000?"280px":"30%"}>   
 				
 <Heading   color={"#1CFFA0T"}  width={props.width<1000?"280px":"100%"} marginBottom={'20px'}  marginTop={props.width<1000?"80px":"0px"} fontSize={props.width<1000?"2xl":"4xl"}  alignSelf={'center'} textAlign={'center'}>
-MORE THAT JUST ART COMMUNITY-DRIVEN SONGBIRD ECOSYSTEM ACCELERATOR.
+MORE THAN JUST ART COMMUNITY-DRIVEN SONGBIRD & FLARE ECOSYSTEM ACCELERATOR.
 
           </Heading>
         
