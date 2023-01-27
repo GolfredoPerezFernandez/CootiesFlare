@@ -49,7 +49,6 @@ const Header = (props: any) => {
        
      }
     if(chainId==='0x13'){
-      console.log("chainId "+chainId)
       setNetwork('Songbird')
       
       const sendOptionsSymbol3 = {

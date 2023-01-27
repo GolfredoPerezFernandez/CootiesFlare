@@ -406,49 +406,37 @@ const handleMetadata = (prop: keyof any) => (event: React.ChangeEvent<any>) => {
 		
        {props.width<800? <VStack 
         marginBottom={20}>
-          
-      <PlanCard
-        description={['Dao Voting Access',"Exclusive NFT drops","Discord Role"]}
-        descriptionTitle=""
-        footer={
-          <Button
-            onClick={mintNow}
-            disabled={user ? false : true }
-            customize={{ backgroundColor: '#161A42', textColor: 'white' }}
-            isFullWidth
-            text={'MINT COST'
-              .concat(' 1000 SGB ' )}
-            theme="custom"
-          />
-        }
-        isActive
-        subTitle="TICKET"
-        title={ <Box style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-           
-		    <h1 style={{ color: '#041836', fontSize: '34px' }}>
-              <Heading>MEMBERSHIP </Heading>
-            </h1>
+			<Box style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
 
-            <Box
-              style={{
-                marginTop: 20,
-                marginBottom: 20,
-                
-                width: '100%',
-                height:"100%",
-                alignSelf: 'center',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+<h1 style={{ color: '#041836', fontSize: '34px' }}>
+	<Heading>MEMBERSHIP </Heading>
+</h1>
 
-			<video  autoPlay src={"https://bafybeifty2v4ylaqy4fpfbws4vjnqhub3neggy3tpo4m5lgrrhu7i5g6ea.ipfs.nftstorage.link/"} />
-            
-            </Box>
-          </Box>
-        }
-        isCurrentPlan={false}
-      />
+<Box
+	style={{
+		marginTop: 20,
+		marginBottom: 20,
+
+		width: '100%',
+		height: "100%",
+		alignSelf: 'center',
+		justifyContent: 'center',
+		alignItems: 'center',
+	}}
+>
+
+	<video autoPlay src={"https://bafybeifty2v4ylaqy4fpfbws4vjnqhub3neggy3tpo4m5lgrrhu7i5g6ea.ipfs.nftstorage.link/"} />
+
+	<Button
+							  onClick={mintNow}
+							  disabled={user ? false : true}
+							  customize={{ backgroundColor: '#161A42',  }}
+							  isFullWidth
+							  text={'MINT COST'
+								  .concat(' 1000 SGB ')}
+							  theme="custom" />
+</Box>
+</Box>
               <Box style={{ flex: 1,  justifyContent: 'center', paddingLeft: '5%', alignItems: 'center' }}>
                 
               <Heading marginLeft={'0%'} marginTop={'50px'} color={"white"} fontSize="4xl" textAlign={'left'}>
@@ -469,53 +457,40 @@ const handleMetadata = (prop: keyof any) => (event: React.ChangeEvent<any>) => {
                 alignSelf={'center'}
                 alignItems={'center'}
         marginBottom={20}>
-     
-      <PlanCard
-        description={['Dao Voting Access',"Exclusive NFT drops","Discord Role"]}
-        descriptionTitle=""
-        footer={
-          <Button
-            onClick={mintNow}
-            disabled={user ? false : true }
-            customize={{ backgroundColor: '#161A42', textColor: 'white' }}
-            isFullWidth
-            text={'MINT COST'
-              .concat(chainId === '0x13' ? ' 1000 ' : ' 36 ')
-              .concat(chainId === '0x13' ? 'SGB' : 'MATIC')}
-            theme="custom"
-          />
-        }
-        isActive
-        subTitle="TICKET"
-        title={ <Box style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <h1 style={{ color: '#041836', fontSize: '34px' }}>
-              <strong>MEMBERSHIP </strong>
-            </h1>
-            <Box
-              style={{
-                marginTop: 20,
-                marginBottom: 20,
-                width: '100%',
-                alignSelf: 'center',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-           <video    
-          onPlay={setPlayBackSpeed}
-            
-          muted
-          autoPlay
-          loop  
-          src={"https://bafybeifty2v4ylaqy4fpfbws4vjnqhub3neggy3tpo4m5lgrrhu7i5g6ea.ipfs.nftstorage.link/"} />
+     <Box style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+								  <h1 style={{ color: '#041836', fontSize: '34px' }}>
+									  <strong>MEMBERSHIP </strong>
+								  </h1>
+								  <Box
+									  style={{
+										  marginTop: 20,
+										  marginBottom: 20,
+										  width: '100%',
+										  alignSelf: 'center',
+										  justifyContent: 'center',
+										  alignItems: 'center',
+									  }}
+								  >
+									  <video
+										  onPlay={setPlayBackSpeed}
 
-                 
-            </Box>
-          </Box>
-        }
-        isCurrentPlan={false}
-      />
-              <Box style={{ flex: 1, justifyContent: 'center', paddingLeft: '5%', paddingRight: '5%',  alignItems: 'center' }}>
+										  muted
+										  autoPlay
+										  loop
+										  src={"https://bafybeifty2v4ylaqy4fpfbws4vjnqhub3neggy3tpo4m5lgrrhu7i5g6ea.ipfs.nftstorage.link/"} />
+
+<Button
+								  onClick={mintNow}
+								  disabled={user ? false : true}
+								  customize={{ backgroundColor: '#161A42',  }}
+								  isFullWidth
+								  text={'MINT COST'
+									  .concat(chainId === '0x13' ? ' 1000 ' : ' 36 ')
+									  .concat(chainId === '0x13' ? 'SGB' : 'MATIC')}
+								  theme="custom" />
+								  </Box>
+							  </Box>
+        <Box style={{ flex: 1, justifyContent: 'center', paddingLeft: '5%', paddingRight: '5%',  alignItems: 'center' }}>
                 
               <Heading marginLeft={'0%'} marginTop={'50px'} width={300} color={"white"} fontSize="4xl" textAlign={'left'}>
                   {'MINT A DAO ERC1155 ACCESS TOKEN'}

@@ -1,5 +1,7 @@
 /* eslint @typescript-eslint/no-var-requires: "off" */
 /* eslint-disable complexity */
+/* eslint @typescript-eslint/no-unused-vars: "off" */
+
 import { Box, Grid, GridItem, Text, SimpleGrid } from '@chakra-ui/react';
 import { Avatar, Information, PlanCard, Button, Input} from '@web3uikit/core';
 import React, { useEffect, useState } from 'react';
@@ -236,44 +238,7 @@ const DeFi = (props: any) => {
                   justifyContent={'space-between'}
                   alignItems={'space-between'}
                 >
-                  <PlanCard
-                    description={['ER20 Staking']}
-                    descriptionTitle=" Dark matter can be used to purchase 10%, 20% or 30% resource increase and also to halve/finish building upgrades, researching and also ships/defences being built"
-                    footer={
-                      <Button
-                        disabled={user ? false : true}
-                        customize={{ backgroundColor: '#F45EAC', textColor: 'white' }}
-                        isFullWidth
-                        text="0.1 SGB per COOT"
-                        theme="custom"
-                      />
-                    }
-                    isActive
-                    subTitle="BUY ERC20 TOKEN"
-                    title={
-                      <h1 style={{ color: '#041836', fontSize: '34px' }}>
-                        <strong>CootiesFinance </strong>
-                        <Box
-                          style={{
-                            marginTop: 10,
-                            marginBottom: 10,
-                            width: '100%',
-                            alignSelf: 'center',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <Avatar
-                            image="https://theuniverse.mypinata.cloud/ipfs/Qmdh3Kv5SvK6NHNY6MUXsrKWimUF9bTLTqhRWpWrNJiatR"
-                            isRounded
-                            size={140}
-                            theme="image"
-                          />
-                        </Box>
-                      </h1>
-                    }
-                    isCurrentPlan={false}
-                  />
+                 
                   <Box style={{ marginTop: 10, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
                     <Text fontSize="4xl" marginBottom={4} textAlign={'center'}>
                       Stake COOT

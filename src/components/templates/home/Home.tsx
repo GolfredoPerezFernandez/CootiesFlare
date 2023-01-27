@@ -6,9 +6,10 @@
 /* eslint-disable arrow-parens */
 /* eslint-disable arrow-spacing */
 /* eslint-disable prefer-const */
+/* eslint-disable no-undef */
+
 /* eslint-disable array-callback-return */
 
-/* eslint @typescript-eslint/no-unused-vars: "off" */
 /* eslint @typescript-eslint/no-unused-vars: "off" */
 
 /* eslint-disable etc/no-commented-out-code */
@@ -26,7 +27,7 @@ import type {
 	PangolinProvider as PangolinProviderType,
   } from '@pangolindex/components';
 import { Box, Text, Image, HStack, VStack,  Stack, Heading } from '@chakra-ui/react';
-import { Button, Illustration, useNotification,  Information, Modal, Input,  Loading } from '@web3uikit/core';
+import { Button, Illustration, useNotification,  Information, Modal, Input,  Loading, Hero, Typography } from '@web3uikit/core';
 import { Footer } from 'components/modules';
 import React, { useEffect, useState } from 'react';
 import 'react-alice-carousel/lib/alice-carousel.css';
@@ -44,6 +45,7 @@ import Carousel from 'react-multi-carousel';
 import numberWithCommas from 'utils/numberWithComas';
 import {  useWeb3ExecuteFunction } from 'react-moralis';
 import { collection, rewards } from './abi';
+import SvgArrowCircleRight from '@web3uikit/icons/dist/lib/icons/ArrowCircleRight';
 
 // const Web3 = require('web3')
 
@@ -229,7 +231,7 @@ const Home = (props: any) => {
   const handleClaimFlare = async () => {
     setIsOpen(true)
     const sendOptions1 = {
-      contractAddress: '0x2A43dc9B70745221265894E13480d7802F52cb67',
+      contractAddress: '0x28BCcD92a688F5Bd3F3C62640d47310090D201e3',
       functionName: 'harvest',
       abi: masterDark,
       awaitReceipt: true,
@@ -245,7 +247,7 @@ const Home = (props: any) => {
 
     const signer = provider.getSigner();
 
-    const contract = new ethers.Contract('0x2A43dc9B70745221265894E13480d7802F52cb67', masterDark, provider);
+    const contract = new ethers.Contract('0x28BCcD92a688F5Bd3F3C62640d47310090D201e3', masterDark, provider);
 
     const transaction = await contract.connect(signer).userInfo(0, user?.get('ethAddress'));
 
@@ -256,6 +258,7 @@ const Home = (props: any) => {
     setIsOpen(false)
 
   }
+  
   const handleClaim = async () => {
     setIsOpen(true)
     const sendOptions1 = {
@@ -307,12 +310,14 @@ const Home = (props: any) => {
 	  for(let i=0;i<res3[0].length;i++){
 tokenIds=[...tokenIds,parseFloat(res3[0][i])];
 	  }
+
 	  if(tokenIds[0]===undefined){
 		setIsOpen(false)
 		return
 	}
+	
 	  for(let i=0;i<tokenIds.length;i++){
-		
+		//collection 0x1F79A1D0c6B321AA32795b6274b598119564a7b3
 		const sendOptions1 = {
 			contractAddress: '0xe44C39A323DC488CF7cc72a20e42A36ad155E515',
 			functionName: 'unstakeNFT',
@@ -412,19 +417,18 @@ tokenIds=[...tokenIds,res3[i][1]];
 
   }
   }
-
   const handleWithdrawStakingV2New20 = async () => {
     setIsOpen(true)
+	
+	  let tokensIdsV2Owned :any =[] 
+	  let withdraw :any =[] 
+	  let stake :any =[] 
     try{
 		await axios.get(`https://songbird-explorer.flare.network/api?module=account&action=txlist&address=${'0x394F7D9508708411306a1d9eF61926861Bd08bf3'}`,{
 			responseType: 'json'
 		  })
 	.then(async (res:any) => {
 	if(res.status === 200) { 
-	  let list :any =[] 
-
-	  let withdraw :any =[] 
-	  let stake :any =[] 
 	 const lista = await res.data.result.filter( (item:any) => item.from===user?.get('ethAddress').toLowerCase())
 
 	 const abi =masterDark8888
@@ -458,12 +462,16 @@ if(result.method==='withdraw'){
 	
 }
 } 
-let items:any=[]
-let counter=0
 
-var myFinalArray = stake.concat(withdraw.filter((item) => stake.indexOf(item) < 0));
 
-let tokensIdsV2Owned = [...new Set(myFinalArray)];
+const result = []
+for (let i = 0; i < stake.length; i++) {
+  if (result.indexOf(stake[i]) === -1){result.push(stake[i])}
+}
+for (let i = 0; i < withdraw.length; i++) {
+  if (result.indexOf(withdraw[i]) === -1){result.push(withdraw[i])} 
+}
+ tokensIdsV2Owned =result
 
 
 const provider = await Moralis.enableWeb3({ provider: 'metamask' });
@@ -477,7 +485,6 @@ const contract = new ethers.Contract('0x394F7D9508708411306a1d9eF61926861Bd08bf3
 
 let resultTokens=[]
 
-
 for(let i=0;i<tokensIdsV2Owned.length;i++){
 
 	const transaction = await contract.connect(signer).stakerAddress(tokensIdsV2Owned[i]);
@@ -486,7 +493,6 @@ if(transaction.toLowerCase()===user?.get('ethAddress')){
 }
 
 }
-
 
 const sendOptions1 = {
 	contractAddress: '0x394F7D9508708411306a1d9eF61926861Bd08bf3',
@@ -520,16 +526,17 @@ setIsOpen(false)
   
   const handleWithdrawStakingV1New20 = async () => {
     setIsOpen(true)
+	
+	let withdraw :any =[] 
+	let stake :any =[] 
+	let tokensIdsV2Owned :any =[] 
     try{
 		await axios.get(`https://songbird-explorer.flare.network/api?module=account&action=txlist&address=${'0x9E8facAb5052CE7dD470032996197544f3D0f982'}`,{
 			responseType: 'json'
 		  })
 	.then(async (res:any) => {
 	if(res.status === 200) { 
-	  let list :any =[] 
 
-	  let withdraw :any =[] 
-	  let stake :any =[] 
 	 const lista = await res.data.result.filter( (item:any) => item.from===user?.get('ethAddress').toLowerCase())
 
 	 const abi =masterDark8888
@@ -563,15 +570,16 @@ if(result.method==='withdraw'){
 	
 }
 } 
-let items:any=[]
-let counter=0
-if(stake.length===0){
 
+
+const result = []
+for (let i = 0; i < stake.length; i++) {
+  if (result.indexOf(stake[i]) === -1){ result.push(stake[i])}
 }
-
-var myFinalArray = stake.concat(withdraw.filter((item) => stake.indexOf(item) < 0));
-
-let tokensIdsV2Owned = [...new Set(myFinalArray)];
+for (let i = 0; i < withdraw.length; i++) {
+  if (result.indexOf(withdraw[i]) === -1){ result.push(withdraw[i])}
+}
+  tokensIdsV2Owned =result
 
 
 const provider = await Moralis.enableWeb3({ provider: 'metamask' });
@@ -595,6 +603,11 @@ if(transaction.toLowerCase()===user?.get('ethAddress')){
 
 }
 
+if(resultTokens.length===0){
+	setIsOpen(false)
+
+	return
+}
 
 const sendOptions1 = {
 	contractAddress: '0x9E8facAb5052CE7dD470032996197544f3D0f982',
@@ -922,7 +935,7 @@ tokenIds=[...tokenIds,res3[i][1]];
     try{
       
     const sendOptions1 = {
-      contractAddress: '0x2A43dc9B70745221265894E13480d7802F52cb67',
+      contractAddress: '0x28BCcD92a688F5Bd3F3C62640d47310090D201e3',
       functionName: 'withdraw',
       abi: masterDark,
       awaitReceipt: true,
@@ -939,7 +952,7 @@ tokenIds=[...tokenIds,res3[i][1]];
 
     const signer = provider.getSigner();
 
-    const contract = new ethers.Contract('0x2A43dc9B70745221265894E13480d7802F52cb67', masterDark, provider);
+    const contract = new ethers.Contract('0x28BCcD92a688F5Bd3F3C62640d47310090D201e3', masterDark, provider);
 
     const transaction = await contract.connect(signer).userInfo(0, user?.get('ethAddress'));
 
@@ -1568,11 +1581,12 @@ const handleWithdrawAllStakingV2Upgraded = async () => {
 
 	const tokensOfOwner = await contract0.connect(signer).tokensOfOwner(user?.get('ethAddress'));
 
-  console.log('tokensOfOwner '+JSON.stringify(tokensOfOwner))
-	  if(tokensOfOwner.length===0){
+	
+  if(tokensOfOwner.length===0){
 		setIsOpen(false)
 		return
 	  }
+
   const options = {
           contractAddress: '0x57F98aaa57b0eCb779E304091bAeFE0CFB50763D',
           functionName: 'unstake',
@@ -1675,7 +1689,6 @@ return
 	await res0.wait(3);   
 }
 
-	console.log(tokensIdsV2Owned)
 const options = {
 		contractAddress: '0x57F98aaa57b0eCb779E304091bAeFE0CFB50763D',
 		functionName: 'stake',
@@ -1718,7 +1731,6 @@ const options = {
 	const ethers = Moralis.web3Library;
 
 	const signer = provider.getSigner();
-	console.log(values.tokenIds.split(",").map(Number).length)
 	if(values.tokenIds.split(",").map(Number).length===0){
 		setIsOpen(false)
 				return
@@ -1783,7 +1795,6 @@ const handleDepositStakingV1New20 = async () => {
 
         const signer = provider.getSigner();
 
-		console.log('entro ')
 
 		let listFiltered2:any=[]
 		await axios.get(`https://songbird-explorer.flare.network/api?module=account&action=tokentx&address=${user?.get('ethAddress').toLowerCase()}`,{
@@ -1803,7 +1814,6 @@ const handleDepositStakingV1New20 = async () => {
 			tokensIdsV1=[...tokensIdsV1,item.tokenID]
 		}
 	})
-	console.log('entro '+tokensIdsV1)
 
 	for(let j=0;j<tokensIdsV1.length;j++){
 		
@@ -1823,9 +1833,6 @@ const handleDepositStakingV1New20 = async () => {
 			tokensIdsV2Owned=[...tokensIdsV2Owned,tokensIdsV1[j]]
 		  }
 	}
-	console.log('entro '+tokensIdsV2Owned)
-
-
 let getStakedTokens:any=[]
     const sendOptions2 = {
 		contractAddress: '0x9bc49C925ae38F97c28BfbCe2d0aD33cd24AeA8E',
@@ -1839,12 +1846,9 @@ let getStakedTokens:any=[]
 	  const res3: any = await Moralis.executeFunction(sendOptions2);
 
 	  for(let i=0;i<res3.length;i++){
-		console.log(res3[i][1])
 
 		getStakedTokens=[...getStakedTokens,parseInt(res3[i][1])];
 	  }
-	  console.log("getStakedTokens "+JSON.stringify(getStakedTokens))
-
 	  if(getStakedTokens.length>0){
 
 		const sendOptions1 = {
@@ -1861,8 +1865,6 @@ let getStakedTokens:any=[]
 
 		  tokensIdsV2Owned.concat(getStakedTokens)
 	  }
-	  console.log('tokensIdsV2Owned '+tokensIdsV2Owned)
-
         const contract0 = new ethers.Contract('0xfdfdab3df0ffe67b735b7b78acf3356913bbcee7', cootieAbi, provider);
 		
 		
@@ -1886,7 +1888,6 @@ if(tokensIdsV2Owned.length===0){
 	return
 }
 
-console.log("tokensIdsV2Owned "+JSON.stringify(tokensIdsV2Owned))
          const options = {
           contractAddress: '0x9E8facAb5052CE7dD470032996197544f3D0f982',
           functionName: 'stake',
@@ -2004,8 +2005,6 @@ let getStakedTokens:any=[]
 		  tokensIdsV2Owned.concat(getStakedTokens)
 
 	  }
-	  console.log('tokensIdsV2Owned '+tokensIdsV2Owned)
-
         const contract0 = new ethers.Contract('0xd4d427d30aba626c138b49efec799f933b20f35f', cootieAbi, provider);
 		
 		
@@ -2397,7 +2396,7 @@ var res=await deploy_contract.deploy(payload).send({from:account}, async (err, t
 		functionName: 'setRewards',
 		abi: masterDark2,
 		params: {
-		  _rewards: '9000000',
+		  _rewards: '9000000000000000000',
 		},
 	  }
 	  await contractProcessor.fetch({
@@ -2673,12 +2672,10 @@ var res=await deploy_contract.deploy(payload).send({from:account}, async (err, t
             to: user.get('ethAddress'),
           },
         }
-		console.log("e");
         await contractProcessor.fetch({
           params: options,
           onSuccess: async (res3:any) => {
           
-      console.log("e");
             return res3.wait(2).then(async (wait:any) => {
             
           if (wait) {
@@ -2735,12 +2732,10 @@ var res=await deploy_contract.deploy(payload).send({from:account}, async (err, t
             to: user.get('ethAddress'),
           },
         }
-		console.log("e");
         await contractProcessor.fetch({
           params: options,
           onSuccess: async (res3:any) => {
           
-      console.log("e");
             return res3.wait(2).then(async (wait:any) => {
             
           if (wait) {
@@ -2783,9 +2778,29 @@ var res=await deploy_contract.deploy(payload).send({from:account}, async (err, t
 
         const signer = provider.getSigner();
 
-		
+		if (!user?.get('tokenCootiesFlare')) {
+			const { window } = global.window;
+	
+			if (window !== undefined && window.ethereum !== undefined) {
+			  await window.ethereum.request({
+				method: 'wallet_watchAsset',
+				params: {
+				  type: 'ERC20',
+				  options: {
+					address: '0xe36064F4c62AC1AC6cA4B0253Bf6109123605AAB',
+					symbol: 'COOT',
+					decimals: 18,
+					image: 'https://bafkreiad3ksqpxasuooqbtq4f6mbzotub6ybxpm25y6nl2t5uf44btvx4y.ipfs.nftstorage.link/',
+				  },
+				},
+			  });
+	
+			  user?.set('tokenCootiesFlare', true);
+			  await user?.save();
+			}
+		  }
          const options = {
-          contractAddress: '0x392f97f36044B06ddaC289bD925CD73740528C2B',
+          contractAddress: '0xdAd9542DF0B9dF4168d6443d42D9B4E586CEa994',
           functionName: 'buyTokens',
           abi: tokenPresaleABI,
 		  msgValue:Moralis.Units.ETH(values.buyTokens),
@@ -2799,7 +2814,7 @@ var res=await deploy_contract.deploy(payload).send({from:account}, async (err, t
           return res3.wait(2).then(async (wait:any) => {
             
           if (wait) {
-            const contract = new ethers.Contract('0x392f97f36044B06ddaC289bD925CD73740528C2B', tokenPresaleABI, provider);
+            const contract = new ethers.Contract('0xdAd9542DF0B9dF4168d6443d42D9B4E586CEa994', tokenPresaleABI, provider);
 
             const transaction = await contract.connect(signer).rate();
 
@@ -2808,6 +2823,7 @@ var res=await deploy_contract.deploy(payload).send({from:account}, async (err, t
             setRate(Moralis.Units.FromWei(transaction));
             setWeiRaised(Moralis.Units.FromWei(pen));
             setIsOpen(false)
+	
        
           }
          })
@@ -2922,16 +2938,16 @@ var res=await deploy_contract.deploy(payload).send({from:account}, async (err, t
         const provider = await Moralis.enableWeb3({ provider: 'metamask' });
         const ethers = Moralis.web3Library;
         const signer = provider.getSigner();
-        const contract0 = new ethers.Contract('0x35b719951A5C061CD70A2A1EE8d6F5b8652a3Bf2', erc20ABI, provider);
+        const contract0 = new ethers.Contract('0xe36064F4c62AC1AC6cA4B0253Bf6109123605AAB', erc20ABI, provider);
      
 		const res0 = await contract0
           .connect(signer)
-          .approve('0x2A43dc9B70745221265894E13480d7802F52cb67', Moralis.Units.ETH(values.stakeCoot));
+          .approve('0x28BCcD92a688F5Bd3F3C62640d47310090D201e3', Moralis.Units.ETH(values.stakeCoot));
 
         await res0.wait(3);   
-		
+		console.log(values.stakeCoot)
          const options = {
-          contractAddress: '0x2A43dc9B70745221265894E13480d7802F52cb67',
+          contractAddress: '0x28BCcD92a688F5Bd3F3C62640d47310090D201e3',
           functionName: 'deposit',
           abi: masterDark,
           params: {
@@ -2940,22 +2956,15 @@ var res=await deploy_contract.deploy(payload).send({from:account}, async (err, t
             to: user.get('ethAddress'),
           },
         }
-		console.log(values.stakeCoot)
         await contractProcessor.fetch({
           params: options,
           onSuccess: async (res3:any) => {
+			handleUpdateFlare()
           return res3.wait(2).then(async (wait:any) => {
             
           if (wait) {
-            const contract = new ethers.Contract('0x2A43dc9B70745221265894E13480d7802F52cb67', masterDark, provider);
-
-            const transaction = await contract.connect(signer).userInfo(0, user?.get('ethAddress'));
-
-            const pen = await contract.connect(signer).pendingReward(0, user?.get('ethAddress'));
-
-            setPending(Moralis.Units.FromWei(pen));
-            setDeposit(Moralis.Units.FromWei(transaction.amount));
-            handleUpdate();
+           
+            handleUpdateFlare();
             
             setIsOpen(false)
        
@@ -3148,7 +3157,7 @@ var res=await deploy_contract.deploy(payload).send({from:account}, async (err, t
 		  const signer = provider.getSigner();
 		  let contract: any = '';
 	
-			contract = new ethers.Contract('0x008798daAF682d9716Ba9B47dCfD90a503bd9b66', masterDark, provider);
+			contract = new ethers.Contract('0x28BCcD92a688F5Bd3F3C62640d47310090D201e3', masterDark, provider);
 	  
 	
 		  const transaction = await contract.connect(signer).userInfo(0, user?.get('ethAddress'));
@@ -3272,7 +3281,6 @@ params: {
   tokenId:parseInt(tokensIdsV1[j])
 }
 };
-console.log(user?.get('ethAddress'))
 const owner= await Moralis.executeFunction(sendOptions5);
 if(owner.toString().toLowerCase()===user?.get('ethAddress').toLowerCase()){
 tokensIdsV1Owned=[...tokensIdsV1Owned,tokensIdsV1[j]]
@@ -3312,7 +3320,10 @@ setRewardsToClaimV1(rewardsToClaim22.toString());
     
     } else {
 			
-		
+		setInterval(()=>{
+
+			handleUpdateFlare()
+		},5000)
 			   handleUpdateFlare()
 			  
 
@@ -4002,21 +4013,13 @@ if(res.status === 200) {
 	  }
   }
   
-  const handleRefreshStaking= async () => {
-    try {
-    } catch (e: any) {
-      console.log(e.message);
-    }
-  }
   const handleUpdateStakingV1New20 = async () => {
     try {
       const provider = await Moralis.enableWeb3({ provider: 'metamask' });
       const ethers = Moralis.web3Library;
 
       const signer = provider.getSigner();
-      let contract: any = '';
-
-        contract = new ethers.Contract('0x9E8facAb5052CE7dD470032996197544f3D0f982', masterDark8888, provider);
+      let contract= new ethers.Contract('0x9E8facAb5052CE7dD470032996197544f3D0f982', masterDark8888, provider);
   
 
       const pen = await contract.connect(signer).userStakeInfo(user?.get('ethAddress'));
@@ -4096,7 +4099,7 @@ if(res.status === 200) {
       const signer = provider.getSigner();
       let contract: any = '';
 
-        contract = new ethers.Contract('0x2A43dc9B70745221265894E13480d7802F52cb67', masterDark, provider);
+        contract = new ethers.Contract('0x28BCcD92a688F5Bd3F3C62640d47310090D201e3', masterDark, provider);
   
 
       const transaction = await contract.connect(signer).userInfo(0, user?.get('ethAddress'));
@@ -4107,25 +4110,25 @@ if(res.status === 200) {
 	  setRewards1((parseFloat(Moralis.Units.FromWei(rew))*1000).toString());
       setPending(Moralis.Units.FromWei(pen));
       setDeposit(Moralis.Units.FromWei(transaction.amount));
-	  
-	 await axios.get(`https://flare-explorer.flare.network/api?module=account&action=tokenbalance&contractaddress=${"0x35b719951A5C061CD70A2A1EE8d6F5b8652a3Bf2".toLowerCase()}&address=${"0x2A43dc9B70745221265894E13480d7802F52cb67".toLowerCase()}`,{
+	 
+	 await axios.get(`https://flare-explorer.flare.network/api?module=account&action=tokenbalance&contractaddress=${"0xe36064F4c62AC1AC6cA4B0253Bf6109123605AAB".toLowerCase()}&address=${"0x28BCcD92a688F5Bd3F3C62640d47310090D201e3".toLowerCase()}`,{
         responseType: 'json'
-      })
+      }).then(async (res:any) => {
+		if(res.status === 200) { 
+				setTVL(Moralis.Units.FromWei(res.data.result))
+		}
 
-.then(async (res:any) => {
-if(res.status === 200) { 
-		setTVL(Moralis.Units.FromWei(res.data.result))
-}
-
-})
-	   const contract2 = new ethers.Contract('0x392f97f36044B06ddaC289bD925CD73740528C2B', tokenPresaleABI, provider);
+		})
+	   const contract2 = new ethers.Contract('0xdAd9542DF0B9dF4168d6443d42D9B4E586CEa994', tokenPresaleABI, provider);
 
 	   const transaction2 = await contract2.connect(signer).rate();
 
 	   const pen2 = await contract2.connect(signer).weiRaised();
 
-setRate(Moralis.Units.FromWei(transaction2));
-setWeiRaised(Moralis.Units.FromWei(pen2));
+		setRate(Moralis.Units.FromWei(transaction2));
+		setWeiRaised(Moralis.Units.FromWei(pen2));
+
+
     } catch (e: any) {
       console.log(e.message);
     }
@@ -4305,42 +4308,21 @@ if(res.status === 200) {
     amount5: '',
   });
   const handleChanges = (prop: keyof any) => (event: React.ChangeEvent<any>) => {
-    if (prop === 'amount') {
-      if (parseFloat(event.target.value).toString().length > 12) {
-        return;
-      }
-    }
-	 if (prop === 'amount2') {
-		if (parseFloat(event.target.value).toString().length > 12) {
-		  return;
-		}
-	  }
-	  
-	  if (prop === 'amount5') {
-		if (parseFloat(event.target.value).toString().length > 12) {
-		  return;
-		}
-	  }
-	  if (prop === 'buyTokens') {
-		
-		if (parseFloat(event.target.value).toString().length > 8) {
-		  return;
-		}
-	  }
+  
 	  if (prop === 'stakeCoot') {
 		if (parseFloat(event.target.value) > 500000) {
 		
 			setValues({ ...values, [prop]: 500000 });
 
-			return;
+			
 		}else if(parseFloat(event.target.value) < 0.000001){
 
 			setValues({ ...values, [prop]: 0.000001 });
-			return;
+			
 
 		}else{
 			setValues({ ...values, [prop]: event.target.value });
-			return;
+			
 
 		}
 	  }else{
@@ -4393,8 +4375,7 @@ if(res.status === 200) {
   />
   <Text color={'black'}>{tokenIndex}</Text>
       </Stack>
-	  {/* //chainId!=='0x13' */}
-    </Modal></Box>:false? <Stack
+    </Modal></Box>:chainId==='0xe'? <Stack
         alignItems={'center'}
         justifyContent={'center'}
         paddingTop={"120px"}
@@ -4402,12 +4383,12 @@ if(res.status === 200) {
         minWidth={props.width }
         width={props.width}
     > 
- <Stack style={{ paddingLeft:props.width<1000?"0px":"0px",flexDirection:props.width<1000?"column":"column", marginTop: props.width<1000?0:40,marginBottom: 20, width: '100%', justifyContent: props.width<1000?"center":'center',gap: props.width<1000?70:200, alignItems: props.width<1000?"center":'center' }}>
+ <Stack style={{ paddingLeft:props.width<1000?"0px":"0px",flexDirection:props.width<1000?"column":"column", marginTop: props.width<1000?0:40,marginBottom: 0, width: '100%', justifyContent: props.width<1000?"center":'center',gap: props.width<1000?70:100, alignItems: props.width<1000?"center":'center' }}>
               
                 
                <VStack width={props.width<1000?"280px":"100%"}>   
 				
-<Heading   color={"#1CFFA0T"}  width={props.width<1000?"280px":"100%"} marginBottom={'20px'}  marginTop={props.width<1000?"80px":"0px"} fontSize={props.width<1000?"2xl":"4xl"}  alignSelf={'center'} textAlign={'center'}>
+<Heading   color={"#1CFFA0T"}  width={props.width<1000?"280px":"100%"} marginBottom={'0px'}  marginTop={props.width<1000?"80px":"0px"} fontSize={props.width<1000?"2xl":"4xl"}  alignSelf={'center'} textAlign={'center'}>
           MORE THAT JUST ART COMMUNITY-DRIVEN SONGBIRD ECOSYSTEM ACCELERATOR.
 
           </Heading>
@@ -4416,10 +4397,11 @@ if(res.status === 200) {
     alignSelf={"center"}
     alignItems={'center'}
     justifyContent={'center'}
-    marginBottom="20px"
+    marginBottom="0px"
     minWidth="240px"
-    height={props.width<800?"70px":"40px"}
+    height={props.width<800?"70px":"20px"}
   >
+
            <TypeAnimation
       sequence={[
         'Cootie Finance is a Value-Oriented', 
@@ -4436,7 +4418,7 @@ if(res.status === 200) {
     />
 </Stack>  
 </VStack> 
-              
+    
 {props.width < 1000 ? (
             <VStack style={{ marginTop:20,width: props.width<1000?"70%":'20%',justifyContent:'center',alignItems:'center'}}>
             
@@ -4803,7 +4785,7 @@ if(res.status === 200) {
             </VStack>
           ) : (
           
-			<HStack style={{ paddingLeft:props.width<800?"0px":"0px",flexDirection:props.width<800?"column":"row", marginTop: 20, width: '80%', justifyContent: props.width<800?"center":'center',gap: props.width<800?70:200, alignItems: props.width<800?"center":'flex-start' }}>
+			<HStack style={{ paddingLeft:props.width<800?"0px":"0px",flexDirection:props.width<800?"column":"row", marginTop: 0, width: '80%', justifyContent: props.width<800?"center":'center',gap: props.width<800?70:50, alignItems: props.width<800?"center":'flex-start' }}>
                   
 <Box style={{
 						backgroundColor:'#18192D',
@@ -4829,6 +4811,15 @@ if(res.status === 200) {
 						width={"80px"}
 						alt="Ultimate"
 					/>
+					 <VStack justifyContent={'center'} alignItems={'center'}>
+					  <Text   fontSize="sm"   color={"#818289"} textAlign={'center'}>
+					  {'Tokens For Sale:'}
+					</Text>
+                      <Text  fontSize="sm"  textAlign={'center'}>
+                        {"20.000.000".concat(' COOT')}
+                      </Text>
+					  </VStack>
+					  
 					 <HStack mt={2} alignItems={"flex-start"} justifyContent={"center"}>
 					<Text   fontSize="sm" mb={2} color={'#21BF96'}  textAlign={'center'}>
 					  {'Raised'}
@@ -4879,15 +4870,24 @@ if(res.status === 200) {
 					  {'YOU WILL GET'}
 					</Text>
                       <Text  fontSize="sm"  textAlign={'center'}>
-                        {(parseFloat(values.buyTokens.toString()==''?'0':Moralis.Units.ETH(values.buyTokens.toString()))*parseFloat(rate)).toString().concat(' COOT')}
+                        {(parseFloat(values.buyTokens.toString()===''?'0':Moralis.Units.ETH(values.buyTokens.toString()))*parseFloat(rate)).toString().concat(' COOT')}
                       </Text>
-					  
 					  </VStack>
 					  
-					  <VStack>
-                     
-					  </VStack>
+					 
 					  </HStack>
+					  <VStack justifyContent={'center'} alignItems={'center'}>
+					  <Text   fontSize="sm"   color={"#818289"} textAlign={'center'}>
+					  {'TOKEN MAX SUPPLY'}
+					</Text>
+                      <Text  fontSize="sm"  textAlign={'center'}>
+                        {"1.000.000.000".concat(' COOT')}
+                      </Text>
+					  <Text  onClick={()=>{window?.open("https://flare-explorer.flare.network/token/0xe36064F4c62AC1AC6cA4B0253Bf6109123605AAB/token-transfers", '_blank'); }} fontSize="sm" mb={2} color={'blue'}  textAlign={'center'}>
+					  {'Open in Explorer'}
+					</Text>
+					  </VStack>
+					  
 					  </VStack> 
 					
 				</Box>
@@ -4979,7 +4979,7 @@ if(res.status === 200) {
                           disabled={user ? false : true}
                           onClick={handleClaimFlare}
                           isFullWidth={true}
-                          color="yellow"
+                          color="red"
                           text="Claim Rewards"
                           theme="colored"
                         />
@@ -4995,7 +4995,7 @@ if(res.status === 200) {
 					  </VStack> 
 			
 				</Box>
-
+{/* 
 <Box style={{
 						backgroundColor:'#18192D',
 						padding:50,
@@ -5117,7 +5117,7 @@ if(res.status === 200) {
                       />   }
                      
 				</Box>
-			
+			 */}
             </HStack>
           )}
 </Stack>  
@@ -6029,8 +6029,7 @@ MORE THAT JUST ART COMMUNITY-DRIVEN SONGBIRD ECOSYSTEM ACCELERATOR.
 	  marginBottom={5}
       alt="Ultimate"
     />
-					
-{false?
+{chainId==="0xe"?
 						<VStack>
 	<HStack mt={2} alignItems={"flex-start"} justifyContent={"center"}>
 					<Text   fontSize="sm" mb={2}  textAlign={'center'}>
@@ -6163,6 +6162,16 @@ MORE THAT JUST ART COMMUNITY-DRIVEN SONGBIRD ECOSYSTEM ACCELERATOR.
   </Text>
 	<Text  fontSize="sm" width={40} textAlign={'center'}>
 	  {nftV2TVL.substring(0,9).concat(' COOT')}
+	</Text>
+   
+   </HStack>
+   
+	<HStack mb={4}  alignItems={"center"} justifyContent={"center"}>
+	<Text   fontSize="sm"   color={"#818289"} textAlign={'center'}>
+	{'NFTs Staked'}
+  </Text>
+	<Text  fontSize="sm" width={40} textAlign={'center'}>
+	  {nftV2}
 	</Text>
    
    </HStack>
@@ -7062,7 +7071,7 @@ MORE THAT JUST ART COMMUNITY-DRIVEN SONGBIRD ECOSYSTEM ACCELERATOR.
                           color="blue"
                           text="COSA COOTV2"
                           theme="primary"
-                        />     
+                        />    
 				{/* 
 			   
 						 <Button
@@ -7073,6 +7082,7 @@ MORE THAT JUST ART COMMUNITY-DRIVEN SONGBIRD ECOSYSTEM ACCELERATOR.
 						text="COSA COOT2"
 						theme="primary"
 					  />    */}
+					  
           {props.width<800? <VStack alignContent={'center'} style={{marginLeft:props.width<800?"-40px":"0px",}} justifyContent={'center'} alignSelf={"center"}>
                   <Box alignSelf={'center'} width={250} style={{justifyContent: 'center', alignItems: 'flex-start'}} height="70px">
                     <Information
@@ -7135,10 +7145,56 @@ MORE THAT JUST ART COMMUNITY-DRIVEN SONGBIRD ECOSYSTEM ACCELERATOR.
             </a>
           </Link>
 
-          <Footer />
-      
         </Stack>}
-        
+		
+<Box height={'20px'}/>
+
+		<Text
+                marginTop={'50px'}
+                marginLeft={props.width < 600 ? 0 : 20}
+                minW={250}
+                color={"white"} fontSize="6xl"
+                textAlign={'left'}
+              >
+                {'Partners'}
+              </Text>
+		       <Box height={'20px'}/>
+			  { chainId==='0xe'?<Hero
+  align="right"
+  backgroundColor="black"
+  customImage={{
+    url: 'https://theuniverse.mypinata.cloud/ipfs/QmdiPG8y5NDALbgeqfWAJjxJ3RFu46J7HikS1otQPNUzj1'
+  }}
+  height="200px"
+  padding="40px"
+  rounded="20px"
+>
+  <React.Fragment key=".0">
+    <Typography
+      color="#FFFFFF"
+      variant="h1"
+    >      Build your own empire on the Universe!
+
+    </Typography>
+    <Button
+      customize={{
+        backgroundColor: 'transparent',
+        border: '1px solid white',
+        color: '#FFFFFF'
+      }}
+	  onClick={()=>{window?.open("", '_blank')}}
+
+      iconLayout="trailing"
+      isTransparent
+      text="Access Dark Matter"
+      theme="custom"
+    />
+  </React.Fragment>
+</Hero>:null}
+<Box height={'20px'}/>
+
+<Footer />
+      
     </Stack>
   );
 };
